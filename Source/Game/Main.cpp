@@ -65,7 +65,7 @@ int main(int argc, char* argv[]) {
 
         game->Draw();
               
-       /////////////////////////////////////////////
+       ///////////////////////////////////
 
         fox::GetEngine().GetRenderer().Present();
     }
