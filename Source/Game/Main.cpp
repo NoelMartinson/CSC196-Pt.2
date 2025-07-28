@@ -10,6 +10,8 @@
 #include "Framework/Actor.h"
 #include "Framework/Scene.h"
 #include "Engine.h"
+#include "Renderer/Text.h"
+#include "Renderer/Font.h"
 
 #include "Game/Player.h"
 #include "Game/SpaceGame.h"
@@ -33,6 +35,12 @@ int main(int argc, char* argv[]) {
     fox::GetEngine().GetAudio().AddSound("snare.wav", "snare");
     fox::GetEngine().GetAudio().AddSound("open-hat.wav", "hihat");
 
+    //Load Font
+	fox::Font* font = new fox::Font();
+    font->Load("arcadeclassic.ttf", 20);
+
+    fox::Text* text = new fox::Text(font);
+    text->Create(fox::GetEngine().GetRenderer(), "Hello World", fox::vec3{ 1, 1, 1});
 
     SDL_Event e;
     bool quit = false;
@@ -62,6 +70,8 @@ int main(int argc, char* argv[]) {
         fox::vec3 color{ 0,0,0 };
         fox::GetEngine().GetRenderer().SetColor(color.r, color.g, color.b);
         fox::GetEngine().GetRenderer().Clear();
+
+        text->Draw(fox::GetEngine().GetRenderer(), 40.0f, 40.0f);
 
         game->Draw();
               

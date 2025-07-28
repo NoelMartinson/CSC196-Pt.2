@@ -6,15 +6,30 @@
 
 void Player::Update(float dt){
     float speed = 200;
+    float rotateRate = 180;
 
-    fox::vec2 direction{ 0, 0 };
-    if (fox::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_W)) direction.y = -1;
-    if (fox::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_A)) direction.x = -1; //speed * time.GetDeltaTime();
-    if (fox::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_S)) direction.y = 1; //speed * time.GetDeltaTime();
-    if (fox::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_D)) direction.x = 1; //speed * time.GetDeltaTime();
+    float rotate = 0;
+    if (fox::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_A)) rotate = -1;
+    if (fox::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_D)) rotate = +1;
 
-    if (direction.LengthSquare() > 0) {
+	transform.roatation += (rotate * rotateRate) * dt;
+
+    float thrust = 0;
+	if (fox::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_W)) thrust = +1;
+
+    fox::vec2 direction{ 1, 0 };
+	fox::vec2 force = direction.Rotate(fox::math::degToRad(transform.roatation)) * thrust * speed;
+    velocity += force * dt;
+
+	Actor::Update(dt);
+
+   // if (fox::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_W)) direction.y = -1;
+   // if (fox::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_A)) direction.x = -1; //speed * time.GetDeltaTime();
+   // if (fox::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_S)) direction.y = +1; //speed * time.GetDeltaTime();
+   // if (fox::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_D)) direction.x = +1; //speed * time.GetDeltaTime();
+
+    /*if (direction.LengthSquare() > 0) {
         direction = direction.Normalized();  
         transform.position += (direction * speed) * dt;
-    }
+    }*/
 }
