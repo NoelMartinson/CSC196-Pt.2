@@ -3,7 +3,7 @@
 
 namespace fox {
 	void fox::Actor::Update(float dt) {
-
+		transform.position += velocity * dt;
 	}
 
 	void fox::Actor::Draw(Renderer& renderer) {
