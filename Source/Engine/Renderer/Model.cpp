@@ -15,6 +15,6 @@ namespace fox {
 	}
 
 	void Model::Draw(Renderer& renderer, const Transform& transform) {
-		Draw(renderer, transform.position, transform.roatation, transform.scale);
+		Draw(renderer, transform.position, transform.rotation, transform.scale);
 	};
 }

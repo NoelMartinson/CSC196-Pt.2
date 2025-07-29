@@ -50,7 +50,7 @@ int main(int argc, char* argv[]) {
         }
 
         fox::GetEngine().Update();
-        game->Update();
+        game->Update(fox::GetEngine().GetTime().GetDeltaTime());
 
         if(fox::GetEngine().GetInput().GetKeyPressed(SDL_SCANCODE_ESCAPE)) {
             quit = true;

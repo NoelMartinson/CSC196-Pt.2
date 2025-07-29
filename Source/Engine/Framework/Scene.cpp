@@ -20,13 +20,7 @@ namespace fox {
 		actor->scene = this;
 		actors.push_back(std::move(actor));
 	}
-	Actor* Scene::GetActorByName(const std::string& name){
-		for(auto& actor : actors) {
-			if (tolower(actor->name) == tolower(name)) {
-				return actor.get();
-			}
-		}
-		return nullptr;
+	void Scene::RemoveAllActors(){
+		actors.clear();
 	}
-	;
 }
