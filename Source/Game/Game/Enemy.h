@@ -4,6 +4,9 @@
 
 class Enemy : public fox::Actor {
 public:
+	float speed = 200.0f;
+
+public:
 	Enemy() = default;
 	Enemy(const fox::Transform& transform, std::shared_ptr<fox::Model> model) :
 		Actor{ transform, model }

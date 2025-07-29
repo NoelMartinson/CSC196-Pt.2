@@ -12,6 +12,15 @@ namespace fox {
 		constexpr float radToDeg(float rad) { return rad * (180 / pi); }
 		constexpr float degToRad(float deg) { return deg * (pi / 180); }
 
+		inline float wrap(float value, float min, float max) {
+			while (value > max) value = value - max;
+
+			float range = max - min;
+			float result = fmodf(value - min, range);
+			if (result < 0) result += range;
+			return min + result;
+		}
+
 		using std::min;
 		using std::max;
 		using std::clamp;

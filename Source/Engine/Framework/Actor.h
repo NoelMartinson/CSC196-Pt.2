@@ -11,8 +11,10 @@ namespace fox {
 		std::string tag;
 
 		vec2 velocity{ 0, 0 };
+		float dampening{ 0.0f };
 
-
+		Transform transform;  
+		class Scene* scene{ nullptr };
 	public:  
 		Actor() = default;  
 		Actor(const fox::Transform& transform, std::shared_ptr<class Model> model) :
@@ -26,7 +28,6 @@ namespace fox {
 		Transform& GetTransform() { return transform; }  
 
 	protected:  
-		Transform transform;  
 		std::shared_ptr<Model> model;
 	};  
 }

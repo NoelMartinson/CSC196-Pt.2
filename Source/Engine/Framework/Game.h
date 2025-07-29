@@ -14,6 +14,9 @@ namespace fox {
 
 		virtual void Draw() = 0;
 	protected:
+		int score{ 0 };
+		int lives{ 0 };
+
 		std::unique_ptr<class Scene> m_scene;
 	};
 }
