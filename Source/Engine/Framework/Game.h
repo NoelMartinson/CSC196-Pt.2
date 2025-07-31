@@ -10,6 +10,13 @@ namespace fox {
 		virtual void Update(float dt) = 0;
 		virtual void Shutdown() = 0;
 		virtual void Draw() = 0;
+
+		void AddPoints(int points) { score += points; }
+		int GetPoints() const { return score; }
+
+		void AddLives(int lives) { this->lives += lives; }
+		int GetLives() const { return lives; }
+
 	protected:
 		int score{ 0 };
 		int lives{ 0 };

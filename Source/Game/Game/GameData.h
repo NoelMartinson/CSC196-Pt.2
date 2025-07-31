@@ -5,4 +5,5 @@
 namespace GameData {
 	extern std::vector<fox::vec2> playerPoints;
 	extern std::vector<fox::vec2> enemyPoints;
+	extern std::vector<fox::vec2> rocketPoints;
 }

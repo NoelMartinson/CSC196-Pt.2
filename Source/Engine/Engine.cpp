@@ -2,6 +2,7 @@
 #include "Renderer/Renderer.h"
 #include "Input/InputSystem.h"
 #include "Audio/AudioSystem.h"
+#include "Renderer/ParticleSystem.h"
 
 namespace fox {
 	Engine& GetEngine()
@@ -22,10 +23,14 @@ namespace fox {
 		m_audio->Initialize();
 		FMOD::Sound* sound = nullptr;
 
+		m_particleSystem = std::make_unique<fox::ParticleSystem>();
+		m_particleSystem->Initialize();
+
 		return true;
 	}
 
 	void Engine::Shutdown() {
+		m_particleSystem->Shutdown();
 		m_audio->Shutdown();
 		m_input->Shutdown();
 		m_renderer->Shutdown();
@@ -35,6 +40,7 @@ namespace fox {
 		m_time.Tick();
 		m_input->Update();
 		m_audio->Update();
+		m_particleSystem->Update(m_time.GetDeltaTime());
 	}
 	void Engine::Draw(){
 

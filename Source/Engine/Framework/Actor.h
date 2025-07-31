@@ -13,6 +13,9 @@ namespace fox {
 		vec2 velocity{ 0, 0 };
 		float dampening{ 0.0f };
 
+		bool destroyed{ false };
+		float lifespan{ 0 };
+
 		Transform transform;  
 		class Scene* scene{ nullptr };
 	public:  
@@ -25,7 +28,9 @@ namespace fox {
 		virtual void Update(float dt);  
 		virtual void Draw(class Renderer& renderer);  
 
-		Transform& GetTransform() { return transform; }  
+		virtual void OnCollision(Actor* other) = 0;
+
+		float GetRadius();
 
 	protected:  
 		std::shared_ptr<Model> model;

@@ -16,5 +16,14 @@ namespace fox {
 
 	void Model::Draw(Renderer& renderer, const Transform& transform) {
 		Draw(renderer, transform.position, transform.rotation, transform.scale);
-	};
+	}
+	void Model::CalculateRadius()
+	{
+		radius = 0;
+		for (const auto& point : points) {
+			float length = point.Length();
+			if (length > radius) radius = length;
+		}
+	}
+	;
 }

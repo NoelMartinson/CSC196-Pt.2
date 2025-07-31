@@ -1,11 +1,24 @@
 #include "Player.h"
 #include "Engine.h"
+#include "Rocket.h"
 #include "Renderer/Renderer.h" 
+#include "Renderer/ParticleSystem.h"
+#include "Core/Random.h"
+#include "Renderer/Model.h"
 #include "Input/InputSystem.h"
+#include "Framework/Scene.h"    
+#include "GameData.h"
 
 #include <iostream>
 
 void Player::Update(float dt){
+    fox::Particle particle;
+    particle.position = transform.position;
+    particle.velocity = fox::vec2{ fox::random::getReal(200.0f), fox::random::getReal(200.0f)};
+	particle.color = fox::vec3{ 1, 1, 1 };
+	particle.lifespan = 2.0f;
+	fox::GetEngine().GetPS().AddParticle(particle);
+
    
     float rotate = 0;
     if (fox::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_A)) rotate = -1;
@@ -23,9 +36,27 @@ void Player::Update(float dt){
 	transform.position.x = fox::math::wrap(transform.position.x, 0.0f, (float)fox::GetEngine().GetRenderer().GetWidth());
     transform.position.y = fox::math::wrap(transform.position.y, 0.0f, (float)fox::GetEngine().GetRenderer().GetHeight());
 
-    if (fox::GetEngine().GetInput().GetKeyPressed(SDL_SCANCODE_SPACE)) {
+    fireTimer -= dt;
+    if (fox::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_SPACE) && fireTimer <= 0) {
+        fireTimer = fireTime;
+        
+        std::shared_ptr<fox::Model>model = std::make_shared < fox::Model>(GameData::rocketPoints, fox::vec3{ 1,0,1 });
+        fox::Transform transform{this->transform.position, this->transform.rotation, 2.0f};
+        auto rocket = std::make_unique<Rocket>(transform, model);
+        rocket->speed = 1500.0f;
+        rocket->lifespan = 1.5f;
+        rocket->tag = "player";
+        rocket->name = "rocket";
 
+        scene->AddActor(std::move(rocket));
     }
 
 	Actor::Update(dt);
+}
+
+void Player::OnCollision(Actor* other)
+{
+    if (tag != other->tag) {
+        destroyed = true;
+    }
 }

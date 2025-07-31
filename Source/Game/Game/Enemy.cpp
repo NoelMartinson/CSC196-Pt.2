@@ -3,6 +3,7 @@
 #include "Framework/Scene.h"
 #include "Renderer/Renderer.h"
 #include "Player.h"
+#include "Framework/Game.h"
 
 void Enemy::Update(float dt){
 	Player* player = scene->GetActorByName<Player>("player");
@@ -21,4 +22,13 @@ void Enemy::Update(float dt){
 	transform.position.y = fox::math::wrap(transform.position.y, 0.0f, (float)fox::GetEngine().GetRenderer().GetHeight());
 
 	Actor::Update(dt);
+}
+
+void Enemy::OnCollision(Actor* other)
+{
+	if (tag != other->tag) {
+		destroyed = true;
+		scene->GetGame()->AddPoints(100);
+		//game->AddPoints(100);
+	}
 }
