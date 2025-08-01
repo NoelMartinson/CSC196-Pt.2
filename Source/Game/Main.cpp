@@ -25,45 +25,6 @@
 
 int main(int argc, char* argv[]) {
 
-    std::cout << "Directory Operations:\n";
-    std::cout << "Current directory: " << fox::file::GetCurrentDirectory() << "\n";
-
-    // Set current directory path (current path + "Assets")
-    std::cout << "Setting directory to 'Assets'...\n";
-    fox::file::SetCurrentDirectory("Assets");
-    std::cout << "New directory: " << fox::file::GetCurrentDirectory() << "\n\n";
-
-    // Get filenames in the current directory
-    std::cout << "Files in Directory:\n";
-    auto filenames = fox::file::GetFilesInDirectory(fox::file::GetCurrentDirectory());
-    for (const auto& filename : filenames) {
-        std::cout << filename << "\n";
-    }
-    std::cout << "\n";
-
-    // Get filename (filename.extension) only
-    if (!filenames.empty()) {
-        std::cout << "Path Analysis:\n";
-        std::string filename = fox::file::GetFilename(filenames[0]);
-        std::cout << "Filename only: " << filename << "\n";
-
-        // Get extension only
-        std::string ext = fox::file::GetExtension(filenames[0]);
-        std::cout << "Extension: " << ext << "\n\n";
-    }
-
-    // Read and display text file
-    std::cout << "Text File Reading:\n";
-    std::string str;
-    bool success = fox::file::ReadTextFile("test.txt", str);
-    if (success) {
-        std::cout << "Contents of test.txt:\n";
-        std::cout << str << "\n";
-    }
-    else {
-        std::cout << "Failed to read test.txt\n";
-    }
-
 	// Initize Engine   
     fox::GetEngine().Initialize();
 
@@ -72,9 +33,7 @@ int main(int argc, char* argv[]) {
 	game->Initialize();
 
 	// Load a sound file
-	fox::GetEngine().GetAudio().AddSound("bass.wav", "bass");
-    fox::GetEngine().GetAudio().AddSound("snare.wav", "snare");
-    fox::GetEngine().GetAudio().AddSound("open-hat.wav", "hihat");
+	     
 
     // Create stars
 	std::vector<fox::vec2> stars;
@@ -115,8 +74,9 @@ int main(int argc, char* argv[]) {
         fox::GetEngine().GetRenderer().SetColor(color.r, color.g, color.b);
         fox::GetEngine().GetRenderer().Clear();
 
-        game->Draw();
-              
+        game->Draw(fox::GetEngine().GetRenderer());
+		
+
        ///////////////////////////////////
 
         fox::GetEngine().GetRenderer().Present();

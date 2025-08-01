@@ -1,8 +1,8 @@
 #include "ParticleSystem.h"
 
 namespace fox {
-	bool ParticleSystem::Initialize() {
-		particles.resize(1000);
+	bool ParticleSystem::Initialize(int poolSize) {
+		particles.resize(poolSize);
 
 		return true;
 	}

@@ -35,11 +35,9 @@ namespace fox {
 		CheckFMODResult(audioSystem->update());
 	}
 
-	bool AudioSystem::AddSound(const std::string& filename, const std::string& name)
+	bool AudioSystem::AddSound(const std::string& filename, const std::string& name, bool loop)
 	{
 		std::string key = (name.empty()) ? filename : name;
-
-		// Convert the key to lowercase using std::transform
 		std::transform(key.begin(), key.end(), key.begin(), [](unsigned char c) { return std::tolower(c); });
 
 		if (soundMap.find(key) != soundMap.end()) {
@@ -48,29 +46,31 @@ namespace fox {
 		}
 
 		FMOD::Sound* sound = nullptr;
-		FMOD_RESULT result = audioSystem->createSound(filename.c_str(), FMOD_DEFAULT, nullptr, &sound);
+		FMOD_MODE mode = loop ? (FMOD_LOOP_NORMAL | FMOD_CREATESTREAM) : FMOD_DEFAULT;
+
+		FMOD_RESULT result = audioSystem->createSound(filename.c_str(), mode, nullptr, &sound);
 		if (!CheckFMODResult(result)) return false;
 
 		soundMap[key] = sound;
-
 		return true;
 	}
 
-	bool AudioSystem::PlaySound(const std::string& name)
+
+	FMOD::Channel* AudioSystem::PlaySound(const std::string& name)
 	{
 		std::string key = name;
-
-		// Convert the key to lowercase using std::transform
 		std::transform(key.begin(), key.end(), key.begin(), [](unsigned char c) { return std::tolower(c); });
 
 		if (soundMap.find(key) == soundMap.end()) {
 			std::cerr << "Sound with name '" << key << "' not found." << std::endl;
-			return false;
+			return nullptr;
 		}
-		audioSystem->playSound(soundMap[key], 0, false, nullptr);
 
-		return true;
+		FMOD::Channel* channel = nullptr;
+		audioSystem->playSound(soundMap[key], 0, false, &channel);
+		return channel;
 	}
+
 
 	
 }

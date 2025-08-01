@@ -24,7 +24,7 @@ namespace fox {
 		FMOD::Sound* sound = nullptr;
 
 		m_particleSystem = std::make_unique<fox::ParticleSystem>();
-		m_particleSystem->Initialize();
+		m_particleSystem->Initialize(5000);
 
 		return true;
 	}

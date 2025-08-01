@@ -14,8 +14,8 @@ namespace fox {
 
 		void Update();
 
-		bool AddSound(const std::string& filename, const std::string& name);
-		bool PlaySound(const std::string& name);
+		bool AddSound(const std::string& filename, const std::string& name, bool loop);
+		FMOD::Channel* PlaySound(const std::string& name);
 
 	private:
 		bool CheckFMODResult(FMOD_RESULT result);

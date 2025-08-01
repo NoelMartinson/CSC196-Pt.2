@@ -2,18 +2,16 @@
 #include "Framework/Actor.h"
 #include "Math/Transform.h"
 
-class Player : public fox::Actor {
+class Health : public fox::Actor {
 public:
-	float speed = 200;
-	float rotateRate = 180;
-	float fireTime = 0.2f;
-	float fireTimer = 0.0f;
-	
+	float speed = 200.0f;
+
 public:
-	Player() = default;
-	Player(const fox::Transform& transform, std::shared_ptr<fox::Model> model) :
+	Health() = default;
+	Health(const fox::Transform& transform, std::shared_ptr<fox::Model> model) :
 		Actor{ transform, model }
-	{};
+	{
+	};
 
 	void Initialize();
 
@@ -21,6 +19,4 @@ public:
 
 	// Inherited via Actor
 	void OnCollision(Actor* other) override;
-
-
 };

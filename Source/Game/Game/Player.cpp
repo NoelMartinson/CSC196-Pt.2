@@ -1,6 +1,7 @@
 #include "Player.h"
 #include "Engine.h"
 #include "Rocket.h"
+#include "SpaceGame.h"
 #include "Renderer/Renderer.h" 
 #include "Renderer/ParticleSystem.h"
 #include "Core/Random.h"
@@ -8,10 +9,12 @@
 #include "Input/InputSystem.h"
 #include "Framework/Scene.h"    
 #include "GameData.h"
+#include "Audio/AudioSystem.h"
 
 #include <iostream>
 
 void Player::Update(float dt){
+
     fox::Particle particle;
     particle.position = transform.position;
     particle.velocity = fox::vec2{ fox::random::getReal(200.0f), fox::random::getReal(200.0f)};
@@ -39,6 +42,7 @@ void Player::Update(float dt){
     fireTimer -= dt;
     if (fox::GetEngine().GetInput().GetKeyDown(SDL_SCANCODE_SPACE) && fireTimer <= 0) {
         fireTimer = fireTime;
+        fox::GetEngine().GetAudio().PlaySound("rocket");
         
         std::shared_ptr<fox::Model>model = std::make_shared < fox::Model>(GameData::rocketPoints, fox::vec3{ 1,0,1 });
         fox::Transform transform{this->transform.position, this->transform.rotation, 2.0f};
@@ -48,6 +52,7 @@ void Player::Update(float dt){
         rocket->tag = "player";
         rocket->name = "rocket";
 
+
         scene->AddActor(std::move(rocket));
     }
 
@@ -56,7 +61,14 @@ void Player::Update(float dt){
 
 void Player::OnCollision(Actor* other)
 {
-    if (tag != other->tag) {
+    
+    if (other->tag == "health") {
+        return;
+    } 
+
+    if (other->tag == "enemy") {
         destroyed = true;
+        dynamic_cast<SpaceGame*>(scene->GetGame())->OnPlayerDeath();
     }
 }
+ 
